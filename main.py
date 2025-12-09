@@ -8,88 +8,233 @@ from sklearn.linear_model import LinearRegression
 import warnings
 warnings.filterwarnings('ignore')
 
-# Page config
+# Page configuration
 st.set_page_config(page_title="Indian Stock Forecast Pro", layout="wide")
 
-# Title
+# Title and intro
 st.title("📈 Indian Stock Forecast Pro")
+st.markdown("Your personal Indian stock market analysis companion")
 st.markdown("---")
 
-# Indian stocks
+# Comprehensive list of 100+ Indian companies
 indian_stocks = [
-    ("Reliance", "RELIANCE.NS"),
+    # Top Banks
     ("HDFC Bank", "HDFCBANK.NS"),
-    ("TCS", "TCS.NS"),
-    ("Infosys", "INFY.NS"),
     ("ICICI Bank", "ICICIBANK.NS"),
-    ("ITC", "ITC.NS"),
-    ("HUL", "HINDUNILVR.NS"),
     ("Axis Bank", "AXISBANK.NS"),
-    ("Bajaj Finance", "BAJFINANCE.NS"),
-    ("SBI", "SBIN.NS"),
-    ("HCL Tech", "HCLTECH.NS"),
+    ("State Bank of India", "SBIN.NS"),
+    ("Kotak Mahindra Bank", "KOTAKBANK.NS"),
+    ("Bank of Baroda", "BANKBARODA.NS"),
+    ("Bank of India", "BANKINDIA.NS"),
+    ("Federal Bank", "FEDERALBNK.NS"),
+    ("IDBI Bank", "IDBI.NS"),
+    ("IndusInd Bank", "INDUSINDBK.NS"),
+    
+    # IT Companies
+    ("Tata Consultancy Services", "TCS.NS"),
+    ("Infosys", "INFY.NS"),
     ("Wipro", "WIPRO.NS"),
-    ("Sun Pharma", "SUNPHARMA.NS"),
-    ("Asian Paints", "ASIANPAINT.NS"),
-    ("Titan", "TITAN.NS"),
-    ("ONGC", "ONGC.NS"),
-    ("Power Grid", "POWERGRID.NS"),
-    ("Nestle", "NESTLEIND.NS"),
+    ("HCL Technologies", "HCLTECH.NS"),
+    ("Tech Mahindra", "TECHM.NS"),
+    ("Mphasis", "MPHASIS.NS"),
+    ("LTI MindTree", "LTIM.NS"),
+    ("Coforge", "COFORGE.NS"),
+    ("PERSISTENT", "PERSISTENT.NS"),
+    ("Sonata Software", "SONATSOFTW.NS"),
+    
+    # Pharmaceuticals
+    ("Sun Pharmaceutical", "SUNPHARMA.NS"),
+    ("Dr. Reddy's Labs", "DRREDDY.NS"),
+    ("Cipla", "CIPLA.NS"),
+    ("Lupin", "LUPIN.NS"),
+    ("Aurobindo Pharma", "AUROPHARMA.NS"),
+    ("Divi's Laboratories", "DIVISLAB.NS"),
+    ("Glenmark Pharma", "GLENMARK.NS"),
+    ("Alkem Laboratories", "ALKEM.NS"),
+    ("Cadila Healthcare", "CADILAHC.NS"),
+    ("Torrent Pharma", "TORRENTPHARMA.NS"),
+    
+    # Energy & Oil
+    ("Reliance Industries", "RELIANCE.NS"),
+    ("Oil & Natural Gas Corp", "ONGC.NS"),
+    ("Indian Oil Corporation", "IOC.NS"),
+    ("Power Grid Corporation", "POWERGRID.NS"),
+    ("NTPC Limited", "NTPC.NS"),
+    ("JSW Energy", "JSWENERGY.NS"),
+    ("Adani Power", "ADANIPOWER.NS"),
+    ("Torrent Power", "TORNTPOWER.NS"),
+    ("REC Limited", "RECLTD.NS"),
+    ("Sembcorp Energy", "SEMBCORP.NS"),
+    
+    # Automobile & Auto Components
+    ("Maruti Suzuki", "MARUTI.NS"),
+    ("Mahindra & Mahindra", "M&M.NS"),
+    ("Bajaj Auto", "BAJAJANTO.NS"),
+    ("Hero MotoCorp", "HEROMOTOCO.NS"),
+    ("Hyundai Motor", "HYUNDAI.NS"),
+    ("Tata Motors", "TATAMOTORS.NS"),
+    ("Ashok Leyland", "ASHOKLEY.NS"),
+    ("Eicher Motors", "EICHERMOT.NS"),
+    ("TVS Motor", "TVSMOTOR.NS"),
+    ("Bosch India", "BOSCHIND.NS"),
+    
+    # FMCG & Consumer Goods
+    ("Hindustan Unilever", "HINDUNILVR.NS"),
+    ("ITC Limited", "ITC.NS"),
+    ("Nestlé India", "NESTLEIND.NS"),
+    ("Britannia", "BRITANNIA.NS"),
+    ("Colgate-Palmolive", "COLPAL.NS"),
+    ("Procter & Gamble", "PROCTER.NS"),
+    ("Godrej Consumer Products", "GODREJCP.NS"),
+    ("Marico Limited", "MARICO.NS"),
+    ("Emami Limited", "EMAMILTD.NS"),
+    ("Dabur India", "DABUR.NS"),
+    
+    # Finance & NBFCs
+    ("Bajaj Finance", "BAJFINANCE.NS"),
+    ("Bajaj Finserv", "BAJAJFINSV.NS"),
+    ("ICICI Prudential", "ICICIPRULI.NS"),
+    ("HDFC Life Insurance", "HDFCLIFE.NS"),
+    ("ICICI Lombard", "ICICILOMD.NS"),
+    ("SBI Life Insurance", "SBILIFE.NS"),
+    ("IIFL Finance", "IIFLWAM.NS"),
+    ("Mahindra Finance", "MAHABANK.NS"),
+    ("Shriram Finance", "SHRIRAMFIN.NS"),
+    ("LIC India", "LIC.NS"),
+    
+    # Cement & Construction
+    ("UltraTech Cement", "ULTRACEMCO.NS"),
+    ("Dalmia Bharat", "DALMIACEM.NS"),
+    ("Shree Cement", "SHREECEM.NS"),
+    ("Ambuja Cements", "AMBUJACEM.NS"),
+    ("ACC Limited", "ACC.NS"),
+    ("Larsen & Toubro", "LT.NS"),
+    ("DLF Limited", "DLF.NS"),
+    ("Prestige Estates", "PRESTIGE.NS"),
+    ("Godrej Properties", "GODREJPROP.NS"),
+    ("Oberoi Realty", "OBEROIRLTY.NS"),
+    
+    # Metals & Mining
+    ("Tata Steel", "TATASTEEL.NS"),
+    ("Jindal Steel", "JINDALSTEL.NS"),
+    ("Hindalco Industries", "HINDALCO.NS"),
+    ("National Aluminium", "NATIONALAL.NS"),
+    ("Vedanta Limited", "VEDL.NS"),
+    ("MOIL Limited", "MOIL.NS"),
+    ("Sesa Sterlite", "SESAGOA.NS"),
+    ("JSW Steel", "JSWSTEEL.NS"),
+    ("Steel Authority of India", "SAIL.NS"),
     ("Coal India", "COALINDIA.NS"),
-    ("Tata Motors", "TATAMOTORS.NS")
+    
+    # Textile & Apparel
+    ("Welspun India", "WELSPUNIND.NS"),
+    ("Bombay Rayon", "BOMRAYTEXT.NS"),
+    ("Arvind Limited", "ARVIND.NS"),
+    ("Grasim Industries", "GRASIM.NS"),
+    ("V-Mart Retail", "VMART.NS"),
+    ("Madura Micro Finance", "MADURACONF.NS"),
+    ("Lumax Auto", "LUXIND.NS"),
+    ("CG Consumer", "CGCONSUMER.NS"),
+    ("Just Dial", "JUSTDIAL.NS"),
+    ("Infibeam Avenues", "INFIBEAM.NS"),
+    
+    # Logistics & Transportation
+    ("Container Corporation", "CONCOR.NS"),
+    ("Allcargo Gloservices", "ALLCARGO.NS"),
+    ("Adani Ports", "ADANIPORTS.NS"),
+    ("Mahindra Logistics", "MAHLOG.NS"),
+    ("TCI Express", "TCIEXP.NS"),
+    ("Blue Dart Express", "BLUEDART.NS"),
+    ("Apollo Logistics", "APOLLOHOSP.NS"),
+    ("Gati Limited", "GATI.NS"),
+    ("Snowman Logistics", "SNOWMAN.NS"),
+    ("AGRO TECH FOODS", "AGROFOOD.NS"),
+    
+    # Retail & E-commerce
+    ("Future Retail", "FUTURERETL.NS"),
+    ("Reliance Retail", "RELIANCERETAIL.NS"),
+    ("Titan Company", "TITAN.NS"),
+    ("Bata India", "BATA.NS"),
+    ("Cera Sanitaryware", "CERA.NS"),
+    ("Symphony Limited", "SYMPHONY.NS"),
+    ("Asian Paints", "ASIANPAINT.NS"),
+    ("Berger Paints", "BERGEPAINT.NS"),
+    ("Pidilite Industries", "PIDILITIND.NS"),
+    ("Kansai Nerolac Paints", "KANL.NS"),
 ]
 
-# Sidebar
+# Sidebar with filters
 with st.sidebar:
-    st.header("Settings")
+    st.header("🔍 Search & Filter")
     
+    # Create a searchable company list
     stock_names = [s[0] for s in indian_stocks]
-    selected_name = st.selectbox("Select Company", stock_names)
-    
-    selected_ticker = [s[1] for s in indian_stocks if s[0] == selected_name][0]
-    
-    period = st.selectbox(
-        "Time Period",
-        ["1mo", "3mo", "6mo", "1y", "2y", "5y"],
-        index=3
+    selected_name = st.selectbox(
+        "Find your favorite company",
+        stock_names,
+        help="Search for any Indian company from the list"
     )
     
-    chart_type = st.radio("Chart Type", ["Line", "Candlestick"])
+    # Get ticker
+    selected_ticker = [s[1] for s in indian_stocks if s[0] == selected_name][0]
     
-    forecast_days = st.slider("Forecast Days", 1, 90, 30)
+    # Time period selection
+    st.markdown("### Time Period")
+    period = st.selectbox(
+        "How far back would you like to look?",
+        ["1mo", "3mo", "6mo", "1y", "2y", "5y"],
+        index=3,
+        help="Select the time range for historical data"
+    )
+    
+    # Chart type selection
+    st.markdown("### Chart Style")
+    chart_type = st.radio(
+        "How do you want to see the price?",
+        ["Line Chart", "Candlestick Chart"],
+        help="Choose your preferred chart visualization"
+    )
+    
+    # Forecast days
+    st.markdown("### Forecasting")
+    forecast_days = st.slider(
+        "How many days ahead should we predict?",
+        1, 90, 30,
+        help="Adjust the forecast duration"
+    )
 
-# Main content
-st.subheader(f"{selected_name} ({selected_ticker})")
+# Main content area
+st.subheader(f"📊 {selected_name}")
+st.caption(f"Ticker: {selected_ticker} | Time Period: {period}")
 
-# Load data function
+# Load stock data function
 @st.cache_data
 def load_stock_data(ticker, period):
     try:
         stock = yf.Ticker(ticker)
         data = stock.history(period=period)
         if data.empty:
-            raise ValueError("No data returned from API")
+            raise ValueError("No data available for this ticker")
         return data
     except Exception as e:
-        st.error(f"Error loading data: {str(e)}")
         return None
 
 # Calculate technical indicators
 def calculate_indicators(data):
     df = data.copy()
     
-    # Moving Averages
+    # Moving Averages - help identify trends
     df['MA20'] = df['Close'].rolling(window=20).mean()
     df['MA50'] = df['Close'].rolling(window=50).mean()
     
-    # RSI (Relative Strength Index)
+    # RSI - shows if stock is overbought or oversold
     delta = df['Close'].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
     rs = gain / loss
     df['RSI'] = 100 - (100 / (1 + rs))
     
-    # Bollinger Bands
+    # Bollinger Bands - volatility indicator
     sma = df['Close'].rolling(window=20).mean()
     std = df['Close'].rolling(window=20).std()
     df['BB_Upper'] = sma + (std * 2)
@@ -98,7 +243,7 @@ def calculate_indicators(data):
     
     return df
 
-# Simple Linear Regression Forecast
+# Simple forecast function
 def forecast_price(data, days):
     try:
         close_prices = data['Close'].values
@@ -108,15 +253,14 @@ def forecast_price(data, days):
         model = LinearRegression()
         model.fit(X, y)
         
-        # Forecast future days
+        # Predict future
         future_X = np.arange(len(close_prices), len(close_prices) + days).reshape(-1, 1)
         future_prices = model.predict(future_X)
         
-        # Calculate trend and volatility for confidence intervals
-        trend = (close_prices[-1] - close_prices[-20]) / 20
+        # Calculate volatility
         volatility = np.std(np.diff(close_prices[-30:])) if len(close_prices) >= 30 else 0
         
-        # Create forecast dates
+        # Create dates
         last_date = data.index[-1]
         future_dates = pd.date_range(start=last_date + timedelta(days=1), periods=days)
         
@@ -129,41 +273,47 @@ def forecast_price(data, days):
         
         return forecast_df
     except Exception as e:
-        st.error(f"Forecasting error: {str(e)}")
         return None
 
-# Load with spinner
-with st.spinner("Loading stock data..."):
+# Load data
+with st.spinner("📥 Fetching the latest stock data..."):
     data = load_stock_data(selected_ticker, period)
 
 if data is None or data.empty:
-    st.error("Could not load data. Please try again or check ticker symbol.")
+    st.error("❌ Couldn't fetch data for this stock. Please try another company or check your internet connection.")
 else:
-    st.success(f"Loaded {len(data)} days of data")
+    st.success(f"✅ Got {len(data)} days of historical data!")
     
     # Calculate indicators
     data = calculate_indicators(data)
     
-    # Display metrics
+    # Display Key Metrics
+    st.markdown("### 💰 Key Metrics")
     col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
         current_price = data['Close'].iloc[-1]
-        st.metric("Current Price", f"₹{current_price:,.2f}")
+        st.metric("Current Price", f"₹{current_price:,.0f}")
+    
     with col2:
         if len(data) > 1:
             prev_price = data['Close'].iloc[-2]
             change = current_price - prev_price
             change_pct = (change / prev_price) * 100
-            st.metric("Daily Change", f"₹{change:,.2f}", f"{change_pct:.2f}%")
+            st.metric("Daily Change", f"₹{change:,.0f}", f"{change_pct:.2f}%")
+    
     with col3:
-        st.metric("52 Week High", f"₹{data['High'].max():,.2f}")
+        high = data['High'].max()
+        st.metric("52-Week High", f"₹{high:,.0f}")
+    
     with col4:
-        st.metric("52 Week Low", f"₹{data['Low'].min():,.2f}")
+        low = data['Low'].min()
+        st.metric("52-Week Low", f"₹{low:,.0f}")
     
-    # Create chart
-    st.subheader("Price Chart with Technical Indicators")
+    # Price Chart
+    st.markdown("### 📈 Price Movement")
     
-    if chart_type == "Line":
+    if chart_type == "Line Chart":
         fig = go.Figure()
         
         fig.add_trace(go.Scatter(
@@ -171,14 +321,14 @@ else:
             y=data['Close'],
             mode='lines',
             name='Close Price',
-            line=dict(color='blue', width=2)
+            line=dict(color='#1f77b4', width=2)
         ))
         
         fig.add_trace(go.Scatter(
             x=data.index,
             y=data['MA20'],
             mode='lines',
-            name='MA 20',
+            name='20-Day Average',
             line=dict(color='orange', width=1, dash='dash')
         ))
         
@@ -186,7 +336,7 @@ else:
             x=data.index,
             y=data['MA50'],
             mode='lines',
-            name='MA 50',
+            name='50-Day Average',
             line=dict(color='red', width=1, dash='dash')
         ))
         
@@ -194,7 +344,7 @@ else:
             x=data.index,
             y=data['BB_Upper'],
             mode='lines',
-            name='BB Upper',
+            name='Upper Band',
             line=dict(color='gray', width=1),
             showlegend=True
         ))
@@ -203,7 +353,7 @@ else:
             x=data.index,
             y=data['BB_Lower'],
             mode='lines',
-            name='BB Lower',
+            name='Lower Band',
             line=dict(color='gray', width=1),
             fill='tonexty',
             fillcolor='rgba(128, 128, 128, 0.1)'
@@ -220,41 +370,42 @@ else:
         )])
     
     fig.update_layout(
-        title=f"{selected_name} Price with Technical Indicators",
+        title=f"{selected_name} - Price Chart",
         xaxis_title="Date",
         yaxis_title="Price (Rupees)",
         height=500,
         template="plotly_white",
-        hovermode='x unified'
+        hovermode='x unified',
+        font=dict(size=11)
     )
     
     st.plotly_chart(fig, use_container_width=True)
     
-    # Technical Indicators Section
-    st.subheader("Technical Analysis")
+    # Technical Analysis Section
+    st.markdown("### 🔬 Technical Indicators")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("**RSI (Relative Strength Index)**")
+        st.markdown("#### RSI (Momentum Indicator)")
         latest_rsi = data['RSI'].iloc[-1]
         if latest_rsi > 70:
-            st.warning(f"RSI: {latest_rsi:.2f} - Overbought")
+            st.warning(f"⚠️ RSI: {latest_rsi:.1f} - Stock looks overbought (might go down)")
         elif latest_rsi < 30:
-            st.info(f"RSI: {latest_rsi:.2f} - Oversold")
+            st.info(f"📌 RSI: {latest_rsi:.1f} - Stock looks oversold (might go up)")
         else:
-            st.success(f"RSI: {latest_rsi:.2f} - Neutral")
+            st.success(f"✅ RSI: {latest_rsi:.1f} - Stock is in normal range")
     
     with col2:
-        st.markdown("**Moving Averages**")
+        st.markdown("#### Moving Averages (Trend)")
         ma20 = data['MA20'].iloc[-1]
         ma50 = data['MA50'].iloc[-1]
-        st.write(f"MA 20: Rupees {ma20:,.2f}")
-        st.write(f"MA 50: Rupees {ma50:,.2f}")
+        st.write(f"20-Day MA: ₹{ma20:,.0f}")
+        st.write(f"50-Day MA: ₹{ma50:,.0f}")
         if ma20 > ma50:
-            st.success("Bullish (MA20 > MA50)")
+            st.success("📈 **Bullish Trend** - 20-day is above 50-day")
         else:
-            st.error("Bearish (MA20 < MA50)")
+            st.error("📉 **Bearish Trend** - 20-day is below 50-day")
     
     # RSI Chart
     fig_rsi = go.Figure()
@@ -262,7 +413,7 @@ else:
         x=data.index,
         y=data['RSI'],
         mode='lines',
-        name='RSI',
+        name='RSI(14)',
         line=dict(color='purple', width=2)
     ))
     
@@ -270,28 +421,29 @@ else:
     fig_rsi.add_hline(y=30, line_dash="dash", line_color="green", annotation_text="Oversold")
     
     fig_rsi.update_layout(
-        title="RSI (14)",
+        title="RSI (14) - Momentum Indicator",
         xaxis_title="Date",
-        yaxis_title="RSI",
-        height=300,
+        yaxis_title="RSI Value",
+        height=350,
         template="plotly_white"
     )
     
     st.plotly_chart(fig_rsi, use_container_width=True)
     
-    # Price Forecasting
-    st.subheader("Price Forecast (Linear Regression)")
+    # Price Forecast Section
+    st.markdown("### 🔮 Price Prediction")
+    st.info("📌 This forecast uses Linear Regression based on historical price movement")
     
-    with st.spinner("Generating forecast..."):
+    with st.spinner("Computing forecast..."):
         forecast_df = forecast_price(data, forecast_days)
         
         if forecast_df is not None:
             fig_forecast = go.Figure()
             
-            # Historical data
+            # Historical
             fig_forecast.add_trace(go.Scatter(
-                x=data.index,
-                y=data['Close'],
+                x=data.index[-60:],  # Last 60 days
+                y=data['Close'].iloc[-60:],
                 mode='lines',
                 name='Historical Price',
                 line=dict(color='blue', width=2)
@@ -302,11 +454,11 @@ else:
                 x=forecast_df['date'],
                 y=forecast_df['forecast'],
                 mode='lines',
-                name='Forecast',
+                name='Predicted Price',
                 line=dict(color='red', width=2, dash='dash')
             ))
             
-            # Confidence interval
+            # Confidence bands
             fig_forecast.add_trace(go.Scatter(
                 x=forecast_df['date'],
                 y=forecast_df['upper'],
@@ -322,12 +474,12 @@ else:
                 fill='tonexty',
                 mode='lines',
                 line_color='rgba(0,0,0,0)',
-                name='Confidence Interval (95%)',
+                name='Confidence Range',
                 fillcolor='rgba(255, 0, 0, 0.2)'
             ))
             
             fig_forecast.update_layout(
-                title=f"{selected_name} - {forecast_days} Day Forecast",
+                title=f"{selected_name} - {forecast_days}-Day Price Forecast",
                 xaxis_title="Date",
                 yaxis_title="Price (Rupees)",
                 height=500,
@@ -337,16 +489,18 @@ else:
             
             st.plotly_chart(fig_forecast, use_container_width=True)
             
-            st.markdown("**Forecast Summary**")
-            forecast_display = forecast_df.tail(10).copy()
-            forecast_display.columns = ['Date', 'Forecast Price', 'Upper Bound', 'Lower Bound']
-            forecast_display['Forecast Price'] = forecast_display['Forecast Price'].apply(lambda x: f"₹{x:,.2f}")
-            forecast_display['Upper Bound'] = forecast_display['Upper Bound'].apply(lambda x: f"₹{x:,.2f}")
-            forecast_display['Lower Bound'] = forecast_display['Lower Bound'].apply(lambda x: f"₹{x:,.2f}")
-            st.dataframe(forecast_display, use_container_width=True, hide_index=True)
+            # Show forecast table
+            st.markdown("#### Next Few Days Prediction")
+            forecast_table = forecast_df.tail(7).copy()
+            forecast_table['date'] = forecast_table['date'].dt.strftime('%Y-%m-%d')
+            forecast_table.columns = ['Date', 'Predicted Price', 'Upper Bound', 'Lower Bound']
+            forecast_table['Predicted Price'] = forecast_table['Predicted Price'].apply(lambda x: f"₹{x:,.0f}")
+            forecast_table['Upper Bound'] = forecast_table['Upper Bound'].apply(lambda x: f"₹{x:,.0f}")
+            forecast_table['Lower Bound'] = forecast_table['Lower Bound'].apply(lambda x: f"₹{x:,.0f}")
+            st.dataframe(forecast_table, use_container_width=True, hide_index=True)
     
     # Returns Analysis
-    st.subheader("Returns Analysis")
+    st.markdown("### 📊 Performance Analysis")
     
     if len(data) > 20:
         returns = data['Close'].pct_change().dropna()
@@ -355,7 +509,7 @@ else:
         
         with col1:
             avg_return = returns.mean() * 100
-            st.metric("Avg Daily Return", f"{avg_return:.3f}%")
+            st.metric("Daily Return (Avg)", f"{avg_return:+.3f}%")
         
         with col2:
             volatility = returns.std() * 100
@@ -363,21 +517,21 @@ else:
         
         with col3:
             total_return = ((data['Close'].iloc[-1] - data['Close'].iloc[0]) / data['Close'].iloc[0]) * 100
-            st.metric("Total Return", f"{total_return:.2f}%")
+            st.metric("Total Return", f"{total_return:+.2f}%")
     
     # Volume Analysis
-    st.subheader("Volume Analysis")
+    st.markdown("### 📈 Trading Volume")
     
     if 'Volume' in data.columns:
         col1, col2 = st.columns(2)
         
         with col1:
             avg_volume = data['Volume'].mean()
-            st.metric("Average Volume", f"{avg_volume:,.0f}")
+            st.metric("Average Daily Volume", f"{avg_volume:,.0f}")
         
         with col2:
             recent_volume = data['Volume'].iloc[-1]
-            st.metric("Recent Volume", f"{recent_volume:,.0f}")
+            st.metric("Today's Volume", f"{recent_volume:,.0f}")
         
         fig_vol = go.Figure()
         fig_vol.add_trace(go.Bar(
@@ -388,8 +542,8 @@ else:
         ))
         
         fig_vol.update_layout(
-            height=300,
-            title="Trading Volume",
+            height=350,
+            title="Daily Trading Volume",
             xaxis_title="Date",
             yaxis_title="Volume",
             template="plotly_white"
@@ -397,33 +551,42 @@ else:
         
         st.plotly_chart(fig_vol, use_container_width=True)
     
-    # Data Table
-    with st.expander("View Raw Data"):
+    # Raw Data Section
+    with st.expander("📋 View Raw Data"):
         st.dataframe(data.tail(20), use_container_width=True)
     
-    # Download buttons
-    st.subheader("Download Data")
+    # Download Section
+    st.markdown("### 💾 Download Data")
     
     csv = data.to_csv()
     st.download_button(
-        label="Download CSV",
+        label="Download as CSV",
         data=csv,
-        file_name=f"{selected_name.replace(' ', '_')}_data.csv",
+        file_name=f"{selected_name.replace(' ', '_')}_stock_data.csv",
         mime="text/csv"
     )
 
 # Footer
 st.markdown("---")
 st.markdown("""
-**Indian Stock Forecast Pro** | Data from Yahoo Finance
+### About This Tool
+**Indian Stock Forecast Pro** - Your free companion for analyzing Indian stock market data
 
-Features:
-- Real-time Indian stock data (NSE/BSE)
-- Price forecasting using Linear Regression
-- Technical indicators (RSI, Moving Averages, Bollinger Bands)
-- Interactive charts with Plotly
-- Download data in CSV format
-- Beautiful responsive UI
+**Features:**
+- 📊 Real-time data from 100+ Indian companies
+- 🔍 Search and filter stocks easily
+- 📈 Multiple chart types (Line & Candlestick)
+- 🔬 Advanced technical indicators (RSI, MA, Bollinger Bands)
+- 🔮 AI-powered price predictions
+- 💹 Performance analytics
+- 📥 Download data as CSV
 
-*For educational purposes only. Not financial advice.*
+**Data Source:** Yahoo Finance  
+**Update Frequency:** Real-time
+
+---
+**⚠️ Disclaimer:** This tool is for educational purposes only. Stock market predictions are not guaranteed. 
+Always consult a financial advisor before making investment decisions. Past performance doesn't guarantee future results.
+
+*Made for Indian engineering students learning data analysis & stock market investing* ❤️
 """)
